@@ -5,7 +5,8 @@ const { Server } = require("socket.io")
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const userRouter = require("../server/routes/userRouter")
+const userRouter = require("../server/routes/userRouter");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 dotenv.config()
 connectDB()
 
@@ -37,6 +38,10 @@ app.use(cors())
 // })
 
 app.use("/user", userRouter)
+app.use(notFound)
+app.use(errorHandler)
+
+
 app.listen(2000, () => {
     console.log("socket.io server is running on port 2000");
 })
