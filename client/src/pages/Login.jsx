@@ -1,15 +1,30 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-
-    const handleSubmit = e => {
+    const navigate = useNavigate()
+    const handleSubmit = async e => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
 
-        form.reset()
-        console.log(email, password);
+        if (!email || !password) {
+            alert("Please fill all the fields!");
+            return;
+        }
+
+        try {
+            const { data } = await axios.post(" http://localhost:2000/user/login", { email, password }, { headers: { "Content-Type": "application/json" } })
+
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            navigate("/chats")
+            alert("Registration Successful!")
+            form.reset()
+            console.log(email, password);
+        } catch {
+            alert("error occured");
+        }
     }
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -26,7 +41,7 @@ const Login = () => {
                 <div>
                     <button type="submit" className="bor w-full rounded-md">Login</button>
                 </div>
-                <button className="bor w-full rounded-md">Guest Credentials</button>
+                <button type="button" className="bor w-full rounded-md">Guest Credentials</button>
                 <Link to="/sign-up">Register</Link>
             </form>
         </div>

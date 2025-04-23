@@ -1,7 +1,9 @@
-
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { imageUpload } from "../utils";
 const SignUp = () => {
-
-    const handleSubmit = e => {
+    const navigate = useNavigate()
+    const handleSubmit = async e => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
@@ -10,10 +12,38 @@ const SignUp = () => {
         const confirmPassword = form.confirmPassword.value;
         const image = form.image.files[0];
 
-        form.reset()
-        console.log(email, password, name,
-            confirmPassword,
-            image);
+        if (image === undefined) {
+            alert("Image is required!");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords don't match!");
+            return;
+        }
+
+        const pic = await imageUpload(image)
+
+        if (!name || !email || !password || !confirmPassword || !pic) {
+            alert("Please fill all the fields!");
+            return;
+        }
+
+        try {
+            const { data } = await axios.post(" http://localhost:2000/user", { name, email, password, pic }, { headers: { "Content-Type": "application/json" } })
+
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            navigate("/chats")
+            alert("Registration Successful!")
+
+            form.reset()
+            console.log(email, password, name,
+                confirmPassword,
+                image);
+        } catch {
+            alert("error occured");
+        }
+
     }
     return (
         <div className="flex justify-center items-center min-h-screen">

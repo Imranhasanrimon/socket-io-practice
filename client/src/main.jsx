@@ -13,7 +13,8 @@ import SignUp from './pages/SignUp.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <h1>App.jsx</h1>,
+    // element: <App />,
   },
   {
     path: "/login",
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignUp />,
+  },
+  {
+    path: "/chats",
+    element: <h1>Chats page</h1>,
   },
 ]);
 

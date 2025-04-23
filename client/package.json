@@ -12,6 +12,7 @@
   "dependencies": {
     "@chakra-ui/react": "^2.10.7",
     "@tailwindcss/vite": "^4.1.4",
+    "axios": "^1.8.4",
     "localforage": "^1.10.0",
     "match-sorter": "^8.0.0",
     "react": "^19.0.0",
